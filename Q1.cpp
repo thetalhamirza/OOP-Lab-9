@@ -6,7 +6,7 @@ class User;
 class Wallet {
     private:
     double balance;
-    double depositLimit;
+    double depositLimit;                // assuming this is a single-day simulation and no date reset needed
     double withdrawLimit;
     string walletID;
 
@@ -43,12 +43,17 @@ class Wallet {
 class User {
     string userID;
     string name;
+    Wallet* wallet;
 
     public:
-    Wallet* wallet;
     User(string uID, string n) : userID(uID), name(n) {
         wallet = new Wallet(userID);
     }
+
+    ~User() {
+        delete wallet;
+    }
+    
     void deposit(double amt) {wallet->deposit(amt);}
     void withdraw(double amt)   {wallet->withdraw(amt);}
     void checkBalance() {wallet->checkBalance();}
